@@ -1,0 +1,170 @@
+/* edit.css */
+
+/* ------------------------------------- */
+/* BASE CONTAINER & HEADER */
+/* ------------------------------------- */
+.view-user-container {
+    max-width: 700px;
+    margin: 40px auto; /* จัดกึ่งกลางหน้าจอ */
+    padding: 30px;
+    background-color: #fcfcfc; /* สีพื้นหลังสว่าง */
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.view-user-container h2 {
+    text-align: center;
+    color: #34495e; /* สีน้ำเงินเข้มดูเป็นทางการ */
+    margin-bottom: 30px;
+    border-bottom: 3px solid #3498db; /* เส้นใต้สีฟ้าสดใส */
+    padding-bottom: 15px;
+    font-size: 1.8em;
+}
+
+/* ------------------------------------- */
+/* FORM CARD AND LAYOUT */
+/* ------------------------------------- */
+.edit-form {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* สำหรับช่อง First Name และ Last Name ให้อยู่ในแถวเดียวกัน */
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1; 
+}
+
+/* ------------------------------------- */
+/* LABEL & INPUT STYLES */
+/* ------------------------------------- */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600; /* ตัวหนาปานกลาง */
+    color: #2c3e50;
+    font-size: 0.95em;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    box-sizing: border-box; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 1em;
+}
+
+/* เน้นเมื่อมีการโฟกัสที่ Input */
+.form-group input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    outline: none;
+}
+
+/* สไตล์สำหรับ input ที่อ่านได้อย่างเดียว */
+input.read-only {
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    cursor: not-allowed;
+    font-style: italic;
+    border: 1px solid #dcdcdc;
+}
+
+/* ------------------------------------- */
+/* IMAGE & BUTTON */
+/* ------------------------------------- */
+.current-profile-image {
+    width: 100px;
+    height: 100px;
+    margin-top: 15px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3498db;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #2ecc71; /* สีเขียวสำหรับปุ่มยืนยัน */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 25px;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* ------------------------------------- */
+/* ALERTS & MESSAGES */
+/* ------------------------------------- */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1em;
+    border-left: 5px solid; /* เพิ่มขอบด้านซ้ายเพื่อเน้น */
+}
+
+.alert-success {
+    background-color: #e8f5e9; /* เขียวอ่อนมาก */
+    color: #2e7d32; /* เขียวเข้ม */
+    border-color: #66bb6a;
+}
+
+.alert-error {
+    background-color: #ffebee; /* แดงอ่อนมาก */
+    color: #c62828; /* แดงเข้ม */
+    border-color: #ef5350;
+}
+
+/* ------------------------------------- */
+/* LOADING MESSAGE */
+/* ------------------------------------- */
+.view-user-container > p {
+    text-align: center;
+    color: #95a5a6;
+    font-style: italic;
+    padding: 30px;
+}
+
+/* ------------------------------------- */
+/* Responsive Adjustments (Optional but Recommended) */
+/* ------------------------------------- */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column; /* เปลี่ยนเป็นเรียงลงเมื่อจอเล็ก */
+        gap: 0;
+    }
+    .view-user-container {
+        margin: 20px;
+        padding: 20px;
+    }
+}

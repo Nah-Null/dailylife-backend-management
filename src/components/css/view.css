@@ -1,0 +1,80 @@
+/* UserManagement.css */
+
+/* 1. Container หลัก: กำหนดขนาดและจัดกึ่งกลาง */
+.view-user-container {
+    max-width: 800px;
+    margin: 40px auto; /* จัดกึ่งกลางหน้าจอ */
+    padding: 30px;
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.view-user-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    border-bottom: 3px solid #007bff; /* สีน้ำเงินสดใส */
+    padding-bottom: 10px;
+}
+
+/* 2. Profile Card: ภาชนะสำหรับข้อมูลผู้ใช้ทั้งหมด */
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 3. Profile Image */
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    object-fit: cover;
+    border: 5px solid #007bff; /* ขอบวงกลมสีเดียวกับ heading */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 4. Definition List (dl) สำหรับรายละเอียด */
+.profile-details-list {
+    width: 100%;
+    max-width: 600px;
+    /* ใช้ CSS Grid ในการจัดเรียงคู่ dt/dd */
+    display: grid;
+    grid-template-columns: 150px 1fr; /* คอลัมน์สำหรับ Label (dt) 150px, คอลัมน์สำหรับ Value (dd) เต็มพื้นที่ที่เหลือ */
+    gap: 15px 10px;
+    margin-top: 15px;
+}
+
+/* 5. Definition Term (dt): Label/ชื่อข้อมูล */
+.profile-details-list dt {
+    font-weight: bold;
+    color: #555;
+    text-align: right; /* จัดชิดขวาให้ชิดกับ Value */
+}
+
+/* 6. Definition Description (dd): ค่าข้อมูล */
+.profile-details-list dd {
+    margin-left: 0; /* ลบ margin เริ่มต้นของ dd */
+    color: #333;
+    padding: 5px 10px;
+    background-color: #e9ecef; /* พื้นหลังสีเทาอ่อนเพื่อเน้น Value */
+    border-radius: 4px;
+    word-break: break-word; /* ป้องกันข้อความยาวเกินไป */
+}
+
+/* 7. สไตล์สำหรับข้อความ Loading/Not Found */
+.view-user-container > p {
+    text-align: center;
+    color: #dc3545;
+    font-style: italic;
+    padding: 20px;
+    border: 1px dashed #dc3545;
+    border-radius: 5px;
+}

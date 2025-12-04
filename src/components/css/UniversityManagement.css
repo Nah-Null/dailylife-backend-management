@@ -1,0 +1,354 @@
+/* ===== Animations ===== */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Root Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background: #f0f4f8;
+}
+
+/* ===== Main Container ===== */
+.backend-container {
+    min-height: 100vh;
+    padding: 40px 24px;
+}
+
+/* ===== Header Section ===== */
+.header-section {
+    margin-bottom: 32px;
+}
+
+.header-top {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.header-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.header-title h1 {
+    font-size: 36px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-title p {
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-title .dot {
+    width: 8px;
+    height: 8px;
+    background-color: #4f46e5;
+    border-radius: 50%;
+}
+
+/* ===== Stats Cards ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.stat-card.primary { border-left-color: #4f46e5; }
+.stat-card.secondary { border-left-color: #2563eb; }
+.stat-card.success { border-left-color: #10b981; }
+
+.stat-label {
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* ===== Main Card ===== */
+.main-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* ===== Search & Filter ===== */
+.search-section {
+    padding: 20px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-wrapper svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    width: 18px;
+    height: 18px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.sort-select {
+    padding: 10px 16px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.sort-select:focus { outline: none; border-color: #4f46e5; }
+
+/* ===== Table Styles ===== */
+.table-wrapper { overflow-x: auto; }
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 700px;
+}
+
+.admin-table thead {
+    background: #e0e7ff;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.admin-table th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-table td {
+    padding: 12px 18px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f9fafb;
+    transition: background 0.2s ease;
+}
+
+/* ===== Action Buttons ===== */
+.actions-cell {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.action-btn {
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.action-btn.view { color: #2563eb; }
+.action-btn.view:hover { background-color: #dbeafe; }
+
+.action-btn.edit { color: #f59e0b; }
+.action-btn.edit:hover { background-color: #fef3c7; }
+
+.action-btn.delete { color: #ef4444; }
+.action-btn.delete:hover { background-color: #fee2e2; }
+
+/* ===== Pagination ===== */
+.pagination-section {
+    padding: 16px 20px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.page-btn {
+    padding: 6px 10px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: white;
+    color: #374151;
+    transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #4f46e5;
+    color: #4f46e5;
+}
+
+.page-btn.active {
+    background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ===== Loading ===== */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    font-size: 16px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .backend-container { padding: 24px 16px; }
+    .header-title h1 { font-size: 28px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .search-section { flex-direction: column; gap: 12px; }
+    .admin-table { font-size: 12px; min-width: 100%; }
+    .admin-table th, .admin-table td { padding: 10px 12px; }
+    .actions-cell { gap: 4px; }
+    .page-btn { padding: 4px 8px; font-size: 12px; }
+}
+/* สมมติ sidebar ความกว้าง 240px */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: #1f2937;
+    z-index: 100;
+}
+
+/* เนื้อหาหลัก ไม่ให้โดนทับ sidebar */
+.backend-container {
+    min-height: 100vh;
+    padding: 40px 24px;
+    margin-left: 240px; /* เว้นด้านซ้ายเท่ากับ sidebar */
+    transition: margin-left 0.3s ease;
+}
+
+/* Responsive: เมื่อหน้าจอเล็ก sidebar อาจซ่อน */
+@media (max-width: 768px) {
+    .backend-container {
+        margin-left: 0; /* content เต็มหน้าจอ */
+        padding: 20px 16px;
+    }
+}
+/* ===== Global Text Color ===== */
+body, h1, h2, h3, h4, h5, h6, p, span, td, th, label, a {
+    color: #000; /* ตัวอักษรดำทั้งหมด */
+}
+
+/* ===== Stats Card Value ===== */
+.stat-value {
+    color: #000; /* ตัวเลขใน card เป็นดำ */
+}
+
+/* ===== User Info ===== */
+.user-info h3, .user-info p {
+    color: #000; /* ชื่อและรายละเอียดผู้ใช้เป็นดำ */
+}
+
+/* ===== Table ===== */
+.admin-table th, .admin-table td {
+    color: #000; /* ตัวอักษรใน table เป็นดำ */
+}
+
+/* ===== Username Badge ===== */
+.username-badge {
+    color: #000; /* badge เป็นดำ */
+}
+
+/* ===== Pagination ===== */
+.pagination-info {
+    color: #000;
+}

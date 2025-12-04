@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 interface UniversityForm {
     university_th: string;
@@ -15,7 +15,7 @@ interface UniversityForm {
     majors: Array<{ major_name: string }>;
 }
 
-const API_BASE_URL = "https://daily-life-backend.vercel.app";
+// const API_BASE_URL = "https://daily-life-backend.vercel.app";
 
 const AddUniversity = () => {
     const [form, setForm] = useState<UniversityForm>({
@@ -78,15 +78,15 @@ const AddUniversity = () => {
         setIsSubmitting(true);
 
         // Filter empty items
-        const payload = {
-            ...form,
-            campuses: form.campuses.filter(c => c.campus_name.trim()),
-            faculties: form.faculties.filter(f => f.faculty_name.trim()),
-            majors: form.majors.filter(m => m.major_name.trim())
-        };
+        // const payload = {
+        //     ...form,
+        //     campuses: form.campuses.filter(c => c.campus_name.trim()),
+        //     faculties: form.faculties.filter(f => f.faculty_name.trim()),
+        //     majors: form.majors.filter(m => m.major_name.trim())
+        // };
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/university/add`, payload);
+            // const response = await axios.post(`${API_BASE_URL}/university/add`, payload);
 
             setMessage({
                 success: true,

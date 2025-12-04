@@ -3,16 +3,6 @@ import { useState, useEffect } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 
-interface Activity {
-    activity_id: string;
-    title: string;
-    description: string;
-    location: string;
-    open_date: string;
-    close_date: string;
-    status: string;
-    image: string;
-}
 
 interface EventProfile {
     id?: number;

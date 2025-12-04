@@ -15,7 +15,7 @@ interface UniversityForm {
     majors: Array<{ major_name: string }>;
 }
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://daily-life-backend.vercel.app";
 
 const AddUniversity = () => {
     const [form, setForm] = useState<UniversityForm>({

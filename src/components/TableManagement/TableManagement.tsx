@@ -27,7 +27,7 @@ type TableColumn = {
     EXTRA: string;
 };
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://daily-life-backend.vercel.app";
 
 const TableManagement = () => {
     const [tables, setTables] = useState<TableInfo[]>([]);

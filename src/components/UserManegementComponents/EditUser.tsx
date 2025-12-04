@@ -15,7 +15,7 @@ interface UserProfile {
     created_at?: string;
 }
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://daily-life-backend.vercel.app";
 
 const EditUser = () => {
     const [profile, setProfile] = useState<UserProfile>({});

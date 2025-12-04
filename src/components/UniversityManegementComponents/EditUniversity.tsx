@@ -37,7 +37,7 @@ interface UniversityProfile {
     raw_json: RawJSON;
 }
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://daily-life-backend.vercel.app";
 
 const EditUniversity = () => {
 

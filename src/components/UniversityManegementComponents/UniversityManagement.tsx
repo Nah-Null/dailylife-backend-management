@@ -29,7 +29,7 @@ const UniversityManagement = () => {
 
     const fetchUniversities = async () => {
         try {
-            const response = await fetch("http://localhost:5000/university/get-all");
+            const response = await fetch("https://daily-life-backend.vercel.app/university/get-all");
             const data = await response.json();
 
             if (response.ok && Array.isArray(data.data)) {
@@ -80,7 +80,7 @@ const UniversityManagement = () => {
         if (!window.confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบมหาวิทยาลัย ID: ${id}?`)) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/university/delete/${id}`, {
+            const response = await fetch(`https://daily-life-backend.vercel.app/university/delete/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });

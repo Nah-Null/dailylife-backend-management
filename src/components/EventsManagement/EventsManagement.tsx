@@ -20,7 +20,7 @@ type EventProfile = {
 };
 
 // ====== BASE URL ======
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://daily-life-backend.vercel.app";
 
 const EventsManagement = () => {
     const [events, setEvents] = useState<EventProfile[]>([]);

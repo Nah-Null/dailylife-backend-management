@@ -23,17 +23,17 @@ const UniversityManagement = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const [sortBy, setSortBy] = useState("university_th");
+    const [sortBy, setSortBy] = useState("id");
     const itemsPerPage = 10;
     const navigate = useNavigate();
 
     const fetchUniversities = async () => {
         try {
-            const response = await fetch("https://daily-life-backend.vercel.app/university/get-all");
+            const response = await fetch("http://localhost:5000/university/get-all");
             const data = await response.json();
 
-            if (response.ok && Array.isArray(data.message)) {
-                setUniversities(data.message);
+            if (response.ok && Array.isArray(data.data)) {
+                setUniversities(data.data);
             } else {
                 console.error("Invalid data format");
             }
@@ -80,7 +80,7 @@ const UniversityManagement = () => {
         if (!window.confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบมหาวิทยาลัย ID: ${id}?`)) return;
 
         try {
-            const response = await fetch(`https://daily-life-backend.vercel.app/api/delete/${id}`, {
+            const response = await fetch(`http://localhost:5000/university/delete/${id}`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -125,6 +125,15 @@ const UniversityManagement = () => {
                             <h1>University Dashboard</h1>
                             <p><span className="dot"></span> Manage {universities.length} universities</p>
                         </div>
+                        <div className="top-actions">
+                            <button
+                                className="add-btn"
+                                onClick={() => navigate("/add-university")}
+                            >
+                                + Add University
+                            </button>
+                        </div>
+
                     </div>
 
                     <div className="stats-grid">
@@ -201,7 +210,7 @@ const UniversityManagement = () => {
                                 disabled={currentPage === 1}
                                 className="page-btn"
                             >
-                                Previous
+                                {"<"}
                             </button>
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                                 <button
@@ -217,7 +226,7 @@ const UniversityManagement = () => {
                                 disabled={currentPage === totalPages}
                                 className="page-btn"
                             >
-                                Next
+                                {'>'}
                             </button>
                         </div>
                     </div>

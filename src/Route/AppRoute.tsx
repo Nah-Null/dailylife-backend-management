@@ -1,9 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import ViewUser from '../components/UserManegementComponents/ViewUser'
 import Index from '../components/Index'
+import ViewUser from '../components/UserManegementComponents/ViewUser'
 import EditUser from '../components/UserManegementComponents/EditUser'
 import ViewUniversity from '../components/UniversityManegementComponents/ViewUniversity'
 import EditUniversity from '../components/UniversityManegementComponents/EditUniversity'
+import AddUniversity from "../components/UniversityManegementComponents/AddUniversity";
+import ViewEvent from '../components/EventsManagement/ViewEvent'
+import EditEvent from '../components/EventsManagement/EditEvent'
+
 
 const AppRoute = () => {
     return (
@@ -19,6 +23,13 @@ const AppRoute = () => {
             <Route path="/view-university/:id" element={<ViewUniversity />} />
             {/* Route สำหรับแก้ไขมหาวิทยาลัย โดยใช้ Parameter :id */}
             <Route path="/edit-university/:id" element={<EditUniversity />} />
+            {/* Route สำหรับเพิ่มมหาวิทยาลัยใหม่ */}
+            <Route path="/add-university" element={<AddUniversity />} />
+            {/* Route สำหรับดูรายละเอียดกิจกรรม โดยใช้ Parameter :id */}
+            <Route path="/view-event/:id" element={<ViewEvent />} />
+            {/* Route สำหรับแก้ไขกิจกรรม โดยใช้ Parameter :id */}
+            <Route path="/edit-event/:id" element={<EditEvent />} />
+
         </Routes>
     )
 }

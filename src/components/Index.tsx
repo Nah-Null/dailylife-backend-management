@@ -3,6 +3,8 @@ import "../App.css";
 
 import BackendManagement from "./UserManegementComponents/UserManagement";
 import UniversityManagement from "./UniversityManegementComponents/UniversityManagement";
+import EventsManagement from "./EventsManagement/EventsManagement";
+import TableManagement from "./TableManagement/TableManagement";
 import Menu from "./menu";
 
 function App() {
@@ -15,8 +17,8 @@ function App() {
       <div className="content-area">
         {activeTab === "user" && <BackendManagement />}
         {activeTab === "university" && <UniversityManagement />}
-        {activeTab === "events" && <h2>Events Management</h2>}
-        {activeTab === "table" && <h2>Table Management</h2>}
+        {activeTab === "events" && <h2><EventsManagement/></h2>}
+        {activeTab === "table" && <h2><TableManagement/></h2>}
       </div>
     </div>
   );

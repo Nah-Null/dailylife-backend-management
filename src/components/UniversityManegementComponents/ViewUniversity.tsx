@@ -18,7 +18,8 @@ interface Major {
 }
 
 interface RawJSON {
-    [key: string]: any;
+    logo: string
+
 }
 
 interface UniversityProfile {
@@ -124,12 +125,6 @@ const ViewUniversity = () => {
                             : 'N/A'}
                     </dd>
 
-                    <dt>Raw JSON:</dt>
-                    <dd>
-                        <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', background: '#f5f5f5', padding: '10px', borderRadius: '8px' }}>
-                            {JSON.stringify(profile.raw_json, null, 2)}
-                        </pre>
-                    </dd>
                 </dl>
             </div>
         </div>

@@ -11,6 +11,10 @@ type UserProfile = {
     phone: string;
     profile_image: string;
 };
+
+// ====== BASE URL ======
+const BASE_URL = "http://localhost:5000";
+
 const UserManagement = () => {
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [loading, setLoading] = useState(true);
@@ -20,14 +24,14 @@ const UserManagement = () => {
     const itemsPerPage = 10;
     const navigate = useNavigate();
 
-
+    // ========== FETCH ALL USERS ==========
     const fetchUsers = async () => {
         try {
-            const response = await fetch("https://daily-life-backend.vercel.app/user/gett-all");
+            const response = await fetch(`${BASE_URL}/user/get-all`);
             const data = await response.json();
 
-            if (response.ok && Array.isArray(data.message)) {
-                setUsers(data.message);
+            if (response.ok && Array.isArray(data.data)) {
+                setUsers(data.data);
             } else {
                 console.error("Invalid user data format");
             }
@@ -43,7 +47,7 @@ const UserManagement = () => {
         fetchUsers();
     }, []);
 
-    // Filter users by search input
+    // Filter users
     const filteredUsers = users.filter(u =>
         `${u.firstname} ${u.lastname}`.toLowerCase().includes(search.toLowerCase()) ||
         u.username.toLowerCase().includes(search.toLowerCase()) ||
@@ -58,7 +62,7 @@ const UserManagement = () => {
         return a.email.localeCompare(b.email);
     });
 
-    // Paginate users
+    // Pagination
     const paginatedUsers = sortedUsers.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
@@ -70,134 +74,60 @@ const UserManagement = () => {
         return <div className="loading-container">Loading...</div>;
     }
 
+    // ========== DELETE USER ==========
     const deleteUser = async (id: number) => {
-        // 1. Pop-up ยืนยันการลบ
-        const isConfirmed = window.confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้ ID: ${id}?`);
+        const confirmed = window.confirm(`ต้องการลบผู้ใช้ ID: ${id} จริงหรือไม่?`);
+        if (!confirmed) return;
 
-        // ถ้าผู้ใช้ยกเลิกการลบ (กด Cancel) ให้จบการทำงาน
-        if (!isConfirmed) {
-            console.log(`Deletion of user ID ${id} cancelled by user.`);
-            return;
-        }
-
-        // โค้ดจะทำงานต่อเมื่อผู้ใช้กดยืนยัน (OK) เท่านั้น
         try {
-            const url = `https://daily-life-backend.vercel.app/user/delete/${id}`;
-
-            const response = await fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    // สำหรับ DELETE, 'Content-Type' อาจไม่จำเป็นถ้าไม่มี Body แต่ใส่ไว้ก็ไม่เสียหาย
-                    'Content-Type': 'application/json',
-                }
+            const response = await fetch(`${BASE_URL}/user/delete/${id}`, {
+                method: 'DELETE'
             });
 
-            // 2. ตรวจสอบสถานะ HTTP (Handle non-2xx statuses)
             if (!response.ok) {
-                // อ่านข้อความ Error จาก Server (ถ้ามี)
-                const errorData = await response.json();
-                throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+                const err = await response.json();
+                throw new Error(err.message);
             }
 
-            // 3. การลบสำเร็จ (Status 200 OK หรือ 204 No Content)
-
-            // ถ้า API ตอบกลับเป็น JSON
-            // const data = await response.json();
-            // console.log("Delete Success:", data.message);
-
-            alert(`ลบผู้ใช้ ID ${id} สำเร็จ!`);
-            window.location.reload();
-            console.log(`Successfully deleted user ID ${id}.`);
-
-            // *** ใส่โค้ดสำหรับรีเฟรชรายการผู้ใช้ หรืออัปเดต UI ที่นี่ ***
-            // เช่น: refreshUserList();
+            alert("ลบสำเร็จ!");
+            setUsers(prev => prev.filter(u => u.id !== id)); // อัปเดต UI โดยไม่ reload
 
         } catch (err: any) {
-            // 4. จัดการ Network Error หรือ Error ที่โยนมาจาก response.ok
-            console.error("Failed to delete user:", err.message);
-            alert(`การลบผู้ใช้ ID ${id} ล้มเหลว: ${err.message}`);
+            alert("การลบล้มเหลว: " + err.message);
         }
-    }
+    };
 
-    const viewUser = async (id: number) => { // <<< ต้องเป็น async function
+    // ========== VIEW USER ==========
+    const viewUser = async (id: number) => {
         try {
-            // 1. Fetch ข้อมูล: ต้องใช้ 'await' เพื่อรอ Response
-            const response = await fetch(`https://daily-life-backend.vercel.app/user/get/${id}`, { // <<< แก้ไข URL ตาม API ที่คุณใช้ (สมมติว่าคุณแก้เป็น /api/userby/:id)
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            // 2. ตรวจสอบ Response Status
-            if (!response.ok) {
-                // ถ้า Status ไม่ใช่ 200 OK ให้โยน Error
-                const errorData = await response.json();
-                throw new Error(errorData.message || `Failed to fetch user. Status: ${response.status}`);
-            }
-
-            // 3. แปลง Response เป็น JSON
+            const response = await fetch(`${BASE_URL}/user/get/${id}`);
             const data = await response.json();
 
-            // 4. แสดงข้อมูลที่ได้มา (ในกรณีนี้คือแสดงด้วย alert เพื่อให้เห็นผล)
-            // สมมติว่าข้อมูลผู้ใช้จริงๆ อยู่ใน data.user (หรือ data.message ตามรูปแบบที่คุณใช้ใน fetchUsers)
-            const user: UserProfile = data.user || data.message;
+            if (!response.ok) throw new Error(data.message);
 
-            if (user) {
-                console.log("View User Data:", user);
-                // หากต้องการเก็บข้อมูลไว้ใน Local Storage:
-                localStorage.setItem("viewUser", JSON.stringify(user));
-                navigate(`/view-user/${id}`);
-
-            } else {
-                alert(`ไม่พบข้อมูลผู้ใช้ ID: ${id}`);
-            }
+            localStorage.setItem("viewUser", JSON.stringify(data.data));
+            navigate(`/view-user/${id}`);
 
         } catch (err: any) {
-            console.error("View User Error:", err.message);
-            alert(`ไม่สามารถดึงข้อมูลผู้ใช้ ID: ${id} ได้: ${err.message}`);
+            alert(`ไม่สามารถโหลดข้อมูลผู้ใช้: ${err.message}`);
         }
-    }
+    };
 
-        const editUser = async (id: number) => { // <<< ต้องเป็น async function
+    // ========== EDIT USER ==========
+    const editUser = async (id: number) => {
         try {
-            // 1. Fetch ข้อมูล: ต้องใช้ 'await' เพื่อรอ Response
-            const response = await fetch(`https://daily-life-backend.vercel.app/userby/${id}`, { // <<< แก้ไข URL ตาม API ที่คุณใช้ (สมมติว่าคุณแก้เป็น /api/userby/:id)
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            // 2. ตรวจสอบ Response Status
-            if (!response.ok) {
-                // ถ้า Status ไม่ใช่ 200 OK ให้โยน Error
-                const errorData = await response.json();
-                throw new Error(errorData.message || `Failed to fetch user. Status: ${response.status}`);
-            }
-
-            // 3. แปลง Response เป็น JSON
+            const response = await fetch(`${BASE_URL}/user/get/${id}`);
             const data = await response.json();
 
-            // 4. แสดงข้อมูลที่ได้มา (ในกรณีนี้คือแสดงด้วย alert เพื่อให้เห็นผล)
-            // สมมติว่าข้อมูลผู้ใช้จริงๆ อยู่ใน data.user (หรือ data.message ตามรูปแบบที่คุณใช้ใน fetchUsers)
-            const user: UserProfile = data.user || data.message;
+            if (!response.ok) throw new Error(data.message);
 
-            if (user) {
-                console.log("Edit User Data:", user);
-                // หากต้องการเก็บข้อมูลไว้ใน Local Storage:
-                localStorage.setItem("EditUser", JSON.stringify(user));
-                navigate(`/edit-user/${id}`);
-
-            } else {
-                alert(`ไม่พบข้อมูลผู้ใช้ ID: ${id}`);
-            }
+            localStorage.setItem("EditUser", JSON.stringify(data.data));
+            navigate(`/edit-user/${id}`);
 
         } catch (err: any) {
-            console.error("View User Error:", err.message);
-            alert(`ไม่สามารถดึงข้อมูลผู้ใช้ ID: ${id} ได้: ${err.message}`);
+            alert(`โหลดข้อมูลผู้ใช้ไม่สำเร็จ: ${err.message}`);
         }
-    }
+    };
 
     return (
         <div className="backend-container">
@@ -214,7 +144,7 @@ const UserManagement = () => {
                         </div>
                     </div>
 
-                    {/* Stats Cards */}
+                    {/* Stats */}
                     <div className="stats-grid">
                         <div className="stat-card primary">
                             <p className="stat-label">Total Users</p>
@@ -231,9 +161,10 @@ const UserManagement = () => {
                     </div>
                 </div>
 
-                {/* Main Card */}
+                {/* Main List */}
                 <div className="main-card">
-                    {/* Search & Filter */}
+                    
+                    {/* Search */}
                     <div className="search-section">
                         <div className="search-wrapper">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -251,6 +182,7 @@ const UserManagement = () => {
                                 }}
                             />
                         </div>
+
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
@@ -274,17 +206,11 @@ const UserManagement = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {paginatedUsers.map((u, idx) => (
-                                    <tr key={u.id} style={{
-                                        animation: `slideIn 0.3s ease-out ${idx * 50}ms backwards`
-                                    }}>
+                                {paginatedUsers.map((u) => (
+                                    <tr key={u.id}>
                                         <td>
                                             <div className="user-cell">
-                                                <img
-                                                    src={u.profile_image}
-                                                    alt={u.firstname}
-                                                    className="user-avatar"
-                                                />
+                                                <img src={u.profile_image} className="user-avatar" />
                                                 <div className="user-info">
                                                     <h3>{u.firstname} {u.lastname}</h3>
                                                     <p>ID: {u.id}</p>
@@ -293,43 +219,13 @@ const UserManagement = () => {
                                         </td>
                                         <td>{u.email}</td>
                                         <td>{u.phone}</td>
-                                        <td>
-                                            <span className="username-badge">@{u.username}</span>
-                                        </td>
+                                        <td><span className="username-badge">@{u.username}</span></td>
+
                                         <td>
                                             <div className="actions-cell">
-                                                <button
-                                                    onClick={() => viewUser(u.id)}
-                                                    className="action-btn view"
-                                                    title="View"
-                                                >
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                        <circle cx="12" cy="12" r="3"></circle>
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                onClick={() =>{editUser(u.id)}}
-                                                    className="action-btn edit"
-                                                    title="Edit"
-                                                >
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                                    </svg>
-                                                </button>
-                                                <button
-                                                    onClick={() => deleteUser(u.id)}
-                                                    className="action-btn delete"
-                                                    title="Delete"
-                                                >
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                                                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                                                    </svg>
-                                                </button>
+                                                <button className="action-btn view" onClick={() => viewUser(u.id)}>View</button>
+                                                <button className="action-btn edit" onClick={() => editUser(u.id)}>Edit</button>
+                                                <button className="action-btn delete" onClick={() => deleteUser(u.id)}>Delete</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -341,38 +237,30 @@ const UserManagement = () => {
                     {/* Pagination */}
                     <div className="pagination-section">
                         <p className="pagination-info">
-                            Showing {paginatedUsers.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0} to {Math.min(currentPage * itemsPerPage, sortedUsers.length)} of {sortedUsers.length} results
+                            Showing {paginatedUsers.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}
+                            {" "}to{" "}
+                            {Math.min(currentPage * itemsPerPage, sortedUsers.length)}
+                            {" "}of {sortedUsers.length} results
                         </p>
+
                         <div className="pagination-buttons">
-                            <button
-                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                                disabled={currentPage === 1}
-                                className="page-btn"
-                            >
-                                Previous
-                            </button>
+                            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>{"<"}</button>
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                                 <button
                                     key={page}
                                     onClick={() => setCurrentPage(page)}
-                                    className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                                    className={currentPage === page ? "active" : ""}
                                 >
                                     {page}
                                 </button>
                             ))}
-                            <button
-                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                                disabled={currentPage === totalPages}
-                                className="page-btn"
-                            >
-                                Next
-                            </button>
+                            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}>{'>'}</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     );
-}
+};
+
 export default UserManagement;

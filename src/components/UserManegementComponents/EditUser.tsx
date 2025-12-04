@@ -1,6 +1,6 @@
 import '../css/edit.css'
-import { useState, useEffect, useCallback, ChangeEvent, FormEvent } from "react";
-// สมมติว่าคุณใช้ Axios ในการเรียก API
+import { useState, useEffect} from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import axios from 'axios'; 
 
 // NOTE: All properties were made optional (?) in the original code,
